@@ -42,7 +42,7 @@ public class Rp {
             throw new RuntimeException(e);
         }
     }
-
+    //Méthode pour envoyer un message text
     public synchronized void envoyerMsgTxt(DatagramSocket socket,String emetteur){
         if(enTraindEcrire || entrainDeLire){
             System.out.println("Attendez-vous ...");
@@ -74,6 +74,7 @@ public class Rp {
         enTraindEcrire = false;
         notify();
     }
+    //Méthode pour recevoir un message texte
     public synchronized String recevoirMsg(DatagramSocket socket){
         if(entrainDeLire || enTraindEcrire){
             System.out.println("Attendez-vouuuuss ");
@@ -96,6 +97,7 @@ public class Rp {
             throw new RuntimeException(e);
         }
     }
+    //Méthode pour envoyer un fichier
     public synchronized void envoyerUnFichier(DatagramSocket socket,String emetteur){
         if(enTraindEcrire || entrainDeLire){
             System.out.println("Vous devez attendre ... ");
@@ -136,6 +138,7 @@ public class Rp {
             e.printStackTrace();
         }
     }
+    //Méthode pour recevoir un fichier
     public synchronized void recevoirFichier(DatagramSocket datagramSocket,String nomFichier,String emetteur) {
         if(entrainDeLire || enTraindEcrire){
             System.out.println("Attendez-vous ");
@@ -169,6 +172,7 @@ public class Rp {
             e.printStackTrace();
         }
     }
+    //Méthode pour envoyer une image
     public synchronized void envoyerImage(DatagramSocket datagramSocket, String emetteur){
         if(enTraindEcrire || entrainDeLire){
             System.out.println("Vous devez attendre ... ");
@@ -226,6 +230,7 @@ public class Rp {
             e.printStackTrace();
         }
     }
+    //Méthode pour recevoir une image
     public synchronized void recevoirImage(DatagramSocket socket, String imageName, String extension,String emetteur){
         System.out.println(imageName+"||"+extension);
         if(enTraindEcrire || entrainDeLire){

@@ -213,7 +213,7 @@ public class ServeurThread extends Thread{
                 datagramPacket = new DatagramPacket(tampon,tampon.length);
                 //Réception du packet
                 datagramSocketServer.receive(datagramPacket);
-                //division du packet
+                //division du packet pour savoir le traitement à effectuer par le serveur
                 String[] dataRecu = (new String(datagramPacket.getData(),0,tampon.length).trim()).split("[|]");
                 operation = dataRecu[0];
 
@@ -254,9 +254,7 @@ public class ServeurThread extends Thread{
                     case "ajouterUnAmi":
                         System.out.println("--- demande d'ajouter un ami ---");
                         username = dataRecu[1];
-                        System.out.println(username);
                         String nouveauAmi = dataRecu[2];
-                        System.out.println(nouveauAmi);
                         suggestionAmis = connexionDb.suggestionAmis(username);
                         if(!suggestionAmis.contains(nouveauAmi)) {
                             System.out.println("ami ajout");
@@ -275,7 +273,7 @@ public class ServeurThread extends Thread{
                             envoyerAuClient(message,datagramPacket.getAddress(),datagramPacket.getPort());
 
                         break;
-
+                    //envoyer à l'utilisateur la liste de ses amis(es)
                     case "demandeListAmis":
                         System.out.println("--- demande liste amis ---");
                         username = dataRecu[1];
@@ -294,15 +292,11 @@ public class ServeurThread extends Thread{
                                     break;
                                 }
                             }
-                            //if(connecte){
-                                message=message+"|"+listAmis.get(i);
-                            /*}else {
-                                message=message+"|"+listAmis.get(i)+":hors ligne";
-                            }*/
+                            message=message+"|"+listAmis.get(i);
                         }
                         envoyerAuClient(message,datagramPacket.getAddress(),datagramPacket.getPort());
                         break;
-
+                    //Envoyer à l'utilisateur la liste de ses amis(es) connectés(es)
                     case "demandeListAmisConnecte":
                         System.out.println("--- Liste amis connectés(es) ---");
                         username = dataRecu[1];
@@ -323,7 +317,7 @@ public class ServeurThread extends Thread{
                         envoyerAuClient(message,datagramPacket.getAddress(),datagramPacket.getPort());
 
                         break;
-
+                    //Envoyer le message recu de l'emetteur au destinataire
                     case "envoyerMsgTxt":
                         message = dataRecu[3];
                         String emetteur = dataRecu[2];
@@ -341,10 +335,8 @@ public class ServeurThread extends Thread{
                             }
                         }
                         envoyerAuClientMsg(emetteur,message,inetAddress,port);
-                        //String db = connexionDb.enregistrerMessage(emetteur,destinataire,message);
-                        //System.out.println("message de la base de donnée: "+db);
                         break;
-
+                    //liste utilisateur
                     case "listeUtilisateurs":
                         System.out.println("--- liste utilisateurs ---");
                         List<String> listeUtilisateurs = connexionDb.listeUtilisateur();
@@ -358,13 +350,13 @@ public class ServeurThread extends Thread{
                         }
                         envoyerAuClient(message,datagramPacket.getAddress(),datagramPacket.getPort());
                         break;
-
+                    //Envoyer le fichier recu de l'emetteur au destinataire
                     case "fichier":
                         System.out.println("Je viens de recevoir un fichier---");
                         recevoirFichier(dataRecu[3]);
                         envoyerFichier(dataRecu[2],dataRecu[1],dataRecu[3]);
                         break;
-
+                    //Envoyer l'image recu de l'emetteur au destinataire
                     case "image":
                         System.out.println("Je viens de recevoir une image: ---");
                         recevoirImage(dataRecu[1]);
@@ -372,7 +364,7 @@ public class ServeurThread extends Thread{
                         String chemin = dataRecu[1];
                         envoyerImage(dataRecu[2],dataRecu[3],chemin);
                         break;
-
+                    //réponse à la demande de déconnexion de l'utilisateur
                     case "demandeDeconnexion":
                         System.out.println("--- Demande déconnexion ---");
                         deconnecteUser(dataRecu[1]);
@@ -391,7 +383,7 @@ public class ServeurThread extends Thread{
                         }
                         envoyerAuClient("Vous êtes déconnectés(es)",datagramPacket.getAddress(),datagramPacket.getPort());
                         break;
-
+                    //Traitement demande inscription d'un nouveau utilisateur
                     case "inscription":
                         System.out.println("--- inscription ---");
                         connexionDb.inscription(dataRecu[1],dataRecu[2],dataRecu[3],dataRecu[4]);
@@ -404,7 +396,7 @@ public class ServeurThread extends Thread{
             }
         }
     }
-    //classe des utilisateurs connectés afin de garder leur port et leur addresse
+    //classe des utilisateurs connectés afin de garder leurs ports et leurs addresses
     public class ConnectedUsers{
         int port;
         InetAddress inetAddress;

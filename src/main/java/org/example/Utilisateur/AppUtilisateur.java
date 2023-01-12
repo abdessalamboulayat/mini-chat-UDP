@@ -60,13 +60,16 @@ public class AppUtilisateur {
             System.out.println("Username: ");
             username = clavier.nextLine();
             tampon = new byte[1024];
+
             informationInscription = "verificationUsername|" + username;
             tampon = informationInscription.getBytes();
             packetInscription = new DatagramPacket(tampon, tampon.length, inetAddress, PORTSERVEUR);
+            //envoyer username pour savoir est ce qu'il existe déja ou non
             datagramSocket.send(packetInscription);
             tampon = new byte[1024];
             DatagramPacket packetResponse = new DatagramPacket(tampon, tampon.length);
             datagramSocket.receive(packetResponse);
+
             reponseServeur = new String(packetResponse.getData(), 0, tampon.length).trim();
             if(reponseServeur.equals("usernameExisteDeja")) System.out.println("Username existe deja, Veuillez saisir un nouveau");
         }while (reponseServeur.equals("usernameExisteDeja"));
@@ -77,6 +80,7 @@ public class AppUtilisateur {
         informationInscription = "inscription|"+nom+"|"+prenom+"|"+username+"|"+password;
         tampon = informationInscription.getBytes();
         packetInscription = new DatagramPacket(tampon,tampon.length,inetAddress,PORTSERVEUR);
+        //envoi des informations du nouveau utilisateur au serveur
         datagramSocket.send(packetInscription);
 
         tampon = new byte[1024];
@@ -90,7 +94,6 @@ public class AppUtilisateur {
         while (true){
             Scanner clavier = new Scanner(System.in);
             String choix;
-            // Utilisateur utilisateur = new Utilisateur();
             AppUtilisateur app = new AppUtilisateur();
             Utilisateur utilisateurConnecte=null;
             System.out.println("1- Connexion\n" +

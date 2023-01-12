@@ -30,12 +30,15 @@ public class Envoyer extends Thread{
     public void run() {
 
         switch (typeMessage){
+            //Envoyer un message text
             case "messageText":
                 rp.envoyerMsgTxt(this.utilisateur.getDatagramSocket(),this.utilisateur.getUsername());
                 break;
+            //Envoyer une piéce jointe [Fichier]
             case "fichier":
                 rp.envoyerUnFichier(this.utilisateur.getDatagramSocket(),this.utilisateur.getUsername());
                 break;
+            //Envoyer une piéce jointe [image]
             case "image":
                 rp.envoyerImage(this.utilisateur.getDatagramSocket(),this.utilisateur.getUsername());
                 break;
