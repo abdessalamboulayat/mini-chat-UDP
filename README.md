@@ -7,7 +7,7 @@ Mini-Chat s’agit d’une petite application de la messagerie qui permettra à 
   
 2. Démarrer la partie utilisateur en lancant la méthode main qui se trouve dans la classe AppUtilisateur.java (src/main/java/org/example/Utilisateur/AppUtilisateur.java)  
   
-3. Importer le fichier minichat.sql sur Mysql se trouve dans le package ConnexionDb>minichat.sql (src/main/java/org/example/ConnexionDb/minichat.sql)  
+3. Importer le fichier minichat.sql dans Mysql se trouve dans le package ConnexionDb>minichat.sql (src/main/java/org/example/ConnexionDb/minichat.sql)  
   
 4. Une fois l'application est lancée, elle vous demande de se connecter ou de s'inscrire, vous pouvez utiliser les comptes suivants(aprés l'importation de la base de données):  
   
